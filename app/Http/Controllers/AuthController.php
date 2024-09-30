@@ -13,7 +13,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-
+        return view("home");
     }
 
     /**
@@ -24,9 +24,6 @@ class AuthController extends Controller
         return view("auth.register");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function register(Request $request)
     {
         $validate = $request->validate([
@@ -54,17 +51,11 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -79,19 +70,13 @@ class AuthController extends Controller
         }   
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function Logout()
     {
-        //
+        auth()->logout();
+        return redirect()->route('home');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function profile()
     {
-        //
+        return view('profile');
     }
 }
