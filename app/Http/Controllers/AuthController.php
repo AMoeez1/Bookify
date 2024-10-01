@@ -87,7 +87,7 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'about' => 'required',
-            'image' => 'required|mimes:jpg,png,webp,jpeg',
+            'image' => 'mimes:jpg,png,webp,jpeg',
         ]);
         $user = User::find(Auth::user()->id);
 
@@ -105,9 +105,23 @@ class AuthController extends Controller
                 $user->image == null;
             }
             $user->save();
-            return redirect()->route('profile');
+            return redirect()->route('profile')->with('Res', 'Profile Updated Successfully');
         } else {
             return back()->withErrors(['Error' => 'Something went wrong']);
+        }
+    }
+
+    public function remove_profile(){
+        $user = User::find(Auth::user()->id);
+        if($user->image){
+            $deleted = Storage::disk('public')->delete($user->image);
+            $user->image = null;
+            $user->save();
+            if($deleted){
+                return redirect()->route('profile')->with('Res', 'Profile Updated Successfully');
+            } else {
+                return back()->withErrors(['Error'=> 'Error Removing Image']);
+            }
         }
     }
 }

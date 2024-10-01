@@ -13,6 +13,7 @@ Route::middleware([ValidUser::class])->group(function () {
     route::get('/profile', [AuthController::class,'profile'])->name('profile');
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
     Route::post('/edit/profile', [AuthController::class,'edit_profile'])->name('edit_profile');
+    Route::get('/remove/profile', [AuthController::class,'remove_profile'])->name('remove_profile');
 });
 
 
