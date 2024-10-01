@@ -21,8 +21,8 @@ class ValidUser
                 return redirect()->route('home');
             }
         } else {
-            if ($request->routeIs('home')) {
-                return redirect()->route('show_login');
+            if ($request->routeIs('profile')) {
+                return redirect()->route('home');
             }
         }
         return $next($request);

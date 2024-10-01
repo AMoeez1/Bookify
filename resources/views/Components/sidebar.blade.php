@@ -21,7 +21,7 @@
                     clip-rule="evenodd"></path>
             </svg>
         </button>
-        <a href="">
+        <a href="/">
             <h1 class="flex gap-1 text-4xl text-white mt-4 mb-12 md:my-12 font-serif">
                 <p>Bookify</p>
                 <span class="text-lg flex items-end font-mono text-blue-400">Shelves</span>
@@ -29,7 +29,7 @@
         </a>
         <ul class="space-y-2 font-medium">
             <li>
-                <a href="#"
+                <a href="/"
                     class="flex items-center p-2 mb-3 rounded-lg text-white hover:bg-gray-100 hover:text-gray-800 group">
                     <span class="ms-3">Home</span>
                 </a>
