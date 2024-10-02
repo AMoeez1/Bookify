@@ -1,11 +1,16 @@
 @extends('layouts.pages')
 
 @section('title', 'Profile - ' . Auth::user()->name)
-<?php
-$user = Auth::user();
-?>
+@php
+    use App\UserRole;
+    $user = Auth::user();
+@endphp
 <style>
     svg.size-6.inline-block.modal-icon.-mt-1.text-green-600.success {
+        height: 20px
+    }
+
+    svg.size-6.inline-block.modal-icon.-mt-1.text-red-600.error {
         height: 20px;
     }
 
@@ -15,13 +20,25 @@ $user = Auth::user();
         display: flex;
         align-items: baseline;
     }
+
+    .w-full.bw-alert.animate__animated.animate__fadeIn.rounded-md.flex.p-3.bg-red-200\/80.text-red-600 {
+        padding: 10px 8px 8px 10px;
+        font-size: 13px;
+        display: flex;
+        align-items: baseline;
+    }
+
+    img.rounded-md {
+        height: 200px;
+        object-fit: cover;
+        width: 100%;
+    }
 </style>
 
 @section('content')
-
     <section class="py-3 md:py-5 xl:py-5">
         @if (session('Res'))
-            <div class="flex justify-center">
+            <div class="flex justify-center transition-opacity duration-500 opacity-100" id="alert">
                 <x-bladewind::alert type="success" size='tiny' class=" w-80">
                     {{ session('Res') }}
                 </x-bladewind::alert>
@@ -29,9 +46,11 @@ $user = Auth::user();
         @endif
         @if ($errors->any())
             @foreach ($errors->all() as $error)
-                <x-bladewind::alert type="error">
-                    {{ $error }}
-                </x-bladewind::alert>
+                <div class="flex justify-center transition-opacity duration-500 opacity-100" id="error">
+                    <x-bladewind::alert type="error" class="w-80">
+                        {{ $error }}
+                    </x-bladewind::alert>
+                </div>
             @endforeach
         @endif
         <div class="container mx-auto">
@@ -39,8 +58,14 @@ $user = Auth::user();
                 <x-slot:headings>
                     <x-bladewind::tab-heading name="profile" active='true' label="Profile" />
                     <x-bladewind::tab-heading name='edit' label='Edit Profile' />
-                    <x-bladewind::tab-heading name='feat' label='Featured Books' />
-                    <x-bladewind::tab-heading name='books' label='Books Published' />
+
+                    @if ($user->role == UserRole::Author)
+                        <x-bladewind::tab-heading name='add_book' label='Add Book' />
+                        <x-bladewind::tab-heading name='feat' label='Featured Books' />
+                        <x-bladewind::tab-heading name='books' label='Books Published' />
+                    @else
+                        <x-bladewind::tab-heading name='author' label='Switch To Author' />
+                    @endif
                 </x-slot:headings>
 
                 <x-bladewind::tab-body>
@@ -53,7 +78,7 @@ $user = Auth::user();
                                 class="w-32 h-32 rounded-full border-2 border-gray-300 my-4">
                         @endif
                         <h5 class="mb-3 font-semibold">About</h5>
-                        <p class="mb-3">{{ $user->about }}</p>
+                        <p class="mb-3">{{ $user->about == '' ? 'No About Added.' : $user->about }}</p>
                         <h5 class="mb-3 font-semibold">Profile</h5>
                         <div>
                             <h1 class="text-2xl font-bold">{{ $user->name }}</h1>
@@ -127,7 +152,8 @@ $user = Auth::user();
                                     type="secondary">
                                     Role: {{ $user->role }}
                                 </x-bladewind::button>
-                                <x-bladewind::input label='Email' class="w-1/2" name='email' selected_value='{{ $user->email }}' />
+                                <x-bladewind::input label='Email' class="w-1/2" name='email'
+                                    selected_value='{{ $user->email }}' />
                             </div>
                             <div class="mt-6 flex gap-4 justify-end items-center">
                                 <h2 class="text-lg font-semibold">Social Links:</h2>
@@ -140,12 +166,49 @@ $user = Auth::user();
                             <x-bladewind::button can_submit='true'>Edit Profile</x-bladewind::button>
                         </form>
                     </x-bladewind::tab-content>
-                    <x-bladewind::tab-content name="feat">
-                        <p>Featured Books</p>
-                    </x-bladewind::tab-content>
-                    <x-bladewind::tab-content name="books">
-                        <p>Books Published</p>
-                    </x-bladewind::tab-content>
+                    @if ($user->role === UserRole::Author)
+                        <x-bladewind::tab-content name="add_book">
+                            <form action="{{route('add_book')}}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="flex gap-2">
+                                    <div class="w-1/2">
+                                        <x-bladewind::button class="mb-4 w-full text-start" outline='true'
+                                            disabled="true" type="secondary">
+                                            Author Id: {{ $user->id }}
+                                        </x-bladewind::button>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <x-bladewind::input required="true" name='name' label="Book Name" />
+                                    </div>
+                                </div>
+                                <x-bladewind::textarea required="true" name='description' label="Description" />
+                                <div class="flex gap-2">
+                                    <div class="w-1/2">
+                                        <x-bladewind::filepicker placeholder="Add Thumbnail / Cover Picture"
+                                            name="thumbnail" />
+                                    </div>
+                                    <div class="w-1/2">
+                                        <x-bladewind::filepicker name="file" placeholder="Upload a PDF"
+                                            max_file_size="1" accepted_file_types=".pdf" />
+                                    </div>
+                                </div>
+                                <x-bladewind::button can_submit='true'>Add Book</x-bladewind::button>
+                            </form>
+                        </x-bladewind::tab-content>
+                        <x-bladewind::tab-content name="feat">
+                            <p>Featured Books</p>
+                        </x-bladewind::tab-content>
+                        <x-bladewind::tab-content name="books">
+                            <iframe src="{{ asset('storage/' . $data->file) }}" width="100%" height="600px">
+                                This browser does not support PDFs. Please download the PDF to view it: <a href="{{ asset('storage/pdfs/your-pdf-file.pdf') }}">Download PDF</a>
+                            </iframe>
+                            
+                        </x-bladewind::tab-content>
+                    @else
+                        <x-bladewind::tab-content name="author">
+                            <p>Switch to Author</p>
+                        </x-bladewind::tab-content>
+                    @endif
                 </x-bladewind::tab-body>
 
             </x-bladewind::tab-group>
@@ -162,4 +225,27 @@ $user = Auth::user();
                     reader.readAsDataURL(file);
                 }
             }
+
+            setTimeout(function() {
+                const alert = document.getElementById('alert');
+                const error = document.getElementById('error')
+                if (alert || error) {
+                    if (alert) {
+                        alert.classList.remove('opacity-100');
+                        alert.classList.add('opacity-0');
+                    }
+                    if (error) {
+                        error.classList.remove('opacity-100');
+                        error.classList.add('opacity-0');
+                    }
+                    setTimeout(function() {
+                        if (alert) {
+                            alert.classlist.add('hidden')
+                        }
+                        if (error) {
+                            error.classlist.add('hidden')
+                        }
+                    }, 1000)
+                }
+            }, 5000);
         </script>

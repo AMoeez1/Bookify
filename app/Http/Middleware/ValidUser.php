@@ -18,11 +18,11 @@ class ValidUser
     {
         if(Auth::check()){
             if ($request->routeIs('show_login') || $request->routeIs('show_register')) {
-                return redirect()->route('home');
+                return redirect()->route('home')->with('Res', 'The route you enter is prohibted!');
             }
         } else {
             if ($request->routeIs('profile')) {
-                return redirect()->route('home');
+                return redirect()->route('home')->with('Res', 'The route you enter is prohibted!');
             }
         }
         return $next($request);

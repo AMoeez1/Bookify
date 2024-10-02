@@ -27,6 +27,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // dd($request->all());
         $validate = $request->validate([
             'name' => 'required',
             'email' => 'email|required',
@@ -43,7 +44,7 @@ class AuthController extends Controller
             ]);
             if ($user) {
                 Auth::login($user);
-                return redirect()->route('home')->with('success', 'Regisered successfully');
+                return redirect()->route('profile')->with('Res', 'Regisered successfully! Now you can update your profile');
             } else {
                 return back()->withErrors(['Error' => 'Something went wrong registering']);
             }

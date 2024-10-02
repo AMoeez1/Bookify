@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
 use App\Http\Middleware\ValidUser;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,7 @@ Route::middleware([ValidUser::class])->group(function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
     Route::post('/edit/profile', [AuthController::class,'edit_profile'])->name('edit_profile');
     Route::get('/remove/profile', [AuthController::class,'remove_profile'])->name('remove_profile');
+    Route::post('/add/book',[BookController::class,'addBook'])->name('add_book');
 });
 
 
