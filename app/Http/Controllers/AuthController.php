@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Books;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
@@ -79,7 +80,11 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        return view('profile');
+        // $books = session('books', []);
+        $author = Auth::user()->id;
+        $books = Books::where('author_id', $author)->get();
+
+        return view('profile',)->with('books', $books);
     }
 
     public function edit_profile(Request $request)

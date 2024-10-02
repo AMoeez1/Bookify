@@ -20,7 +20,9 @@ class BookController extends Controller
         $data = [
             'name' => $request->name,
             'author_id' => Auth::user()->id,
+            'author_name' => Auth::user()->name,
             'description' => $request->description,
+            'feat_author' => $request->feat,
         ];
 
         if ($request->hasFile('thumbnail')) {
@@ -32,11 +34,19 @@ class BookController extends Controller
             $data['file'] = $thumbnail;
         }
 
+
+        
         if(Books::create($data)){
-            return redirect()->route('profile')->with('Res', 'Book Published Successfully');
+            return redirect()->route('profile', )->with('Res' , 'Book Published Successfully');
         } else {
             return back()->withErrors(['Error' => 'Error publishing book']);
         }
-
     }
+
+    // public function FilterBooks(){
+    //     $author = Auth::user()->id;
+    //     $books = Books::where('author_id', $author)->get();
+    //     // session(['books' => $books]);
+    //     return view('profile')->with('books', $books);
+    // }
 }

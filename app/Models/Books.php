@@ -16,6 +16,8 @@ class Books extends Model
         'description',
         'thumbnail',
         'file',
+        'author_name',
+        'feat_author'
     ];
 
     public static function boot()

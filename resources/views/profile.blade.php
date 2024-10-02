@@ -168,7 +168,7 @@
                     </x-bladewind::tab-content>
                     @if ($user->role === UserRole::Author)
                         <x-bladewind::tab-content name="add_book">
-                            <form action="{{route('add_book')}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('add_book') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="flex gap-2">
                                     <div class="w-1/2">
@@ -178,7 +178,19 @@
                                         </x-bladewind::button>
                                     </div>
                                     <div class="w-1/2">
+                                        <x-bladewind::button class="mb-4 w-full text-start" outline='true' disabled="true"
+                                            type="secondary">
+                                            Author Name: {{ $user->name }}
+                                        </x-bladewind::button>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <div class="w-1/2">
                                         <x-bladewind::input required="true" name='name' label="Book Name" />
+                                    </div>
+
+                                    <div class="w-1/2">
+                                        <x-bladewind::input name='feat' label="Featured Author" />
                                     </div>
                                 </div>
                                 <x-bladewind::textarea required="true" name='description' label="Description" />
@@ -199,10 +211,48 @@
                             <p>Featured Books</p>
                         </x-bladewind::tab-content>
                         <x-bladewind::tab-content name="books">
-                            <iframe src="{{ asset('storage/' . $data->file) }}" width="100%" height="600px">
+                            {{-- <iframe src="{{ asset('storage/' . $book->file) }}" width="100%" height="600px">
                                 This browser does not support PDFs. Please download the PDF to view it: <a href="{{ asset('storage/pdfs/your-pdf-file.pdf') }}">Download PDF</a>
-                            </iframe>
-                            
+                            </iframe> --}}
+
+                            <x-bladewind::table divided="false" class="">
+                                <x-slot name="header">
+
+                                </x-slot>
+                                <table class="table-auto w-full">
+                                    <thead class="">
+                                        <tr class="border-2">
+                                            <th class="border-2 text-start">Book Name</th>
+                                            <th class="border-2 text-start">Author Id</th>
+                                            <th class="border-2 text-start">Author Name</th>
+                                            <th class="border-2 text-start">Featured Author Name</th>
+                                            <th class="border-2 text-start">Desc</th>
+                                            <th class="border-2 text-start">Cover Page</th>
+                                            <th class="border-2 text-start">PDF</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($books as $book)
+                                        <tbody>
+                                            <tr class="border-2">
+                                                <td class="border-2">{{ $book->name }}</td>
+                                                <td class="border-2">{{ $book->author_id }}</td>
+                                                <td class="border-2">{{ $book->author_name }}</td>
+                                                <td class="border-2">{{ $book->feat_author ? $book->feat_author : 'No Featured' }}</td>
+                                                <td class="border-2">{{ $book->description }}</td>
+                                                <td class="border-2"><img src="{{ 'storage/' . $book->thumbnail }}"
+                                                        alt="" class="w-32 h-16 object-cover"></td>
+                                                <td class="border-2">{{ $book->thumbnail }}</td>
+                                            </tr>
+                                        </tbody>
+                                    @endforeach
+                                </table>
+                            </x-bladewind::table>
+                            {{-- <iframe src="{{ asset('storage/' . $book->file) }}" width="100%" height="600px">
+                                        This browser does not support PDFs. Please download the PDF to view it: <a
+                                            href="{{ asset('storage/' . $book->file) }}">Download PDF</a>
+                                    </iframe> --}}
+
+
                         </x-bladewind::tab-content>
                     @else
                         <x-bladewind::tab-content name="author">
