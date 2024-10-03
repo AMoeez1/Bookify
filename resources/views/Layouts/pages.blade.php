@@ -19,11 +19,7 @@
 </head>
 <body>
     <div class="grid grid-cols-12">
-        <div class="col-span-0  md:col-span-2">
-            {{-- Sidebar --}}
-            @include('Components.sidebar')
-        </div>
-        <div class="col-span-12 md:col-span-10">
+        <div class="col-span-12">
             @include('Components.header')
             @yield('content')
         </div>

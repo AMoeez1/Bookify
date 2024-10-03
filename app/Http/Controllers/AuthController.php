@@ -15,7 +15,8 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view("home");
+        $books = Books::inRandomOrder()->limit(5)->get();
+        return view("home", ['books' => $books]);
     }
 
     /**
