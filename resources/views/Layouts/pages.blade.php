@@ -24,6 +24,7 @@
             @include('Components.sidebar')
         </div>
         <div class="col-span-12 md:col-span-10">
+            @include('Components.header')
             @yield('content')
         </div>
     </div>

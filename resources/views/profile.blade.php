@@ -211,9 +211,7 @@
                             <p>Featured Books</p>
                         </x-bladewind::tab-content>
                         <x-bladewind::tab-content name="books">
-                            {{-- <iframe src="{{ asset('storage/' . $book->file) }}" width="100%" height="600px">
-                                This browser does not support PDFs. Please download the PDF to view it: <a href="{{ asset('storage/pdfs/your-pdf-file.pdf') }}">Download PDF</a>
-                            </iframe> --}}
+                            
 
                             <x-bladewind::table divided="false" class="">
                                 <x-slot name="header">
@@ -241,7 +239,13 @@
                                                 <td class="border-2">{{ $book->description }}</td>
                                                 <td class="border-2"><img src="{{ 'storage/' . $book->thumbnail }}"
                                                         alt="" class="w-32 h-16 object-cover"></td>
-                                                <td class="border-2">{{ $book->thumbnail }}</td>
+                                                        <td>
+                                                            <a href="{{url('book/'. $book->slug)}}">{{$book->slug}}</a>
+                                                        </td>
+                                                {{-- <td class="border-2">{{ $book->thumbnail }}</td> --}}
+                                                {{-- <iframe src="{{ asset('storage/' . $book) }}" width="" height="">
+                                This browser does not support PDFs. Please download the PDF to view it: <a href="{{ asset('storage/pdfs/your-pdf-file.pdf') }}">Download PDF</a>
+                            </iframe> --}}
                                             </tr>
                                         </tbody>
                                     @endforeach

@@ -9,8 +9,8 @@
 </button>
 
 <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
-    aria-label="Sidebar">
+    class="fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0"
+    aria-label="Sidebar" style="width: 16.6rem">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-800">
         <button id="close-sidebar" class="p-2 text-gray-500 hover:bg-gray-100 rounded-lg block md:hidden">
             <span class="sr-only">Close sidebar</span>
@@ -49,35 +49,6 @@
                     class="flex items-center p-2 mb-3 rounded-lg text-white hover:bg-gray-100 hover:text-gray-800 group">
                     <span class="ms-3">About US</span>
                 </a>
-                <hr>
-            </li>
-        </ul>
-        <ul class="flex font-medium mt-20">
-            <li>
-                @auth
-                    <a href="/profile"
-                        class="flex mt-auto items-center p-2 mb-3 rounded-lg text-white hover:bg-gray-100 hover:text-gray-800 group">
-                        <span class="ms-3">Profile</span>
-                    </a>
-                    <form action="{{route('logout')}}" method="post" >
-                        @csrf
-                        <button class="ms-3 flex mt-auto items-center p-2 mb-3 rounded-lg text-white hover:bg-gray-100 hover:text-gray-800 group">
-                            Log Out
-                        </button>
-                    </form>
-                @endauth
-
-                @guest
-
-                    <a href="/register"
-                        class="flex mt-auto items-center p-2 mb-3 rounded-lg text-white hover:bg-gray-100 hover:text-gray-800 group">
-                        <span class="ms-3">Sign UP</span>
-                    </a>
-                    <a href="/login"
-                        class="flex mt-auto items-center p-2 mb-3 rounded-lg text-white hover:bg-gray-100 hover:text-gray-800 group">
-                        <span class="ms-3">Login</span>
-                    </a>
-                @endguest
             </li>
         </ul>
     </div>
