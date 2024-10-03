@@ -178,8 +178,8 @@
                                         </x-bladewind::button>
                                     </div>
                                     <div class="w-1/2">
-                                        <x-bladewind::button class="mb-4 w-full text-start" outline='true' disabled="true"
-                                            type="secondary">
+                                        <x-bladewind::button class="mb-4 w-full text-start" outline='true'
+                                            disabled="true" type="secondary">
                                             Author Name: {{ $user->name }}
                                         </x-bladewind::button>
                                     </div>
@@ -211,52 +211,24 @@
                             <p>Featured Books</p>
                         </x-bladewind::tab-content>
                         <x-bladewind::tab-content name="books">
-                            
-
-                            <x-bladewind::table divided="false" class="">
+                            <x-bladewind::table>
                                 <x-slot name="header">
-
+                                    <th>Book Id</th>
+                                    <th>Book Name</th>
+                                    <th>Author</th>
+                                    <th>Author Id</th>
+                                    <th>Read or Download</th>
                                 </x-slot>
-                                <table class="table-auto w-full">
-                                    <thead class="">
-                                        <tr class="border-2">
-                                            <th class="border-2 text-start">Book Name</th>
-                                            <th class="border-2 text-start">Author Id</th>
-                                            <th class="border-2 text-start">Author Name</th>
-                                            <th class="border-2 text-start">Featured Author Name</th>
-                                            <th class="border-2 text-start">Desc</th>
-                                            <th class="border-2 text-start">Cover Page</th>
-                                            <th class="border-2 text-start">PDF</th>
-                                        </tr>
-                                    </thead>
-                                    @foreach ($books as $book)
-                                        <tbody>
-                                            <tr class="border-2">
-                                                <td class="border-2">{{ $book->name }}</td>
-                                                <td class="border-2">{{ $book->author_id }}</td>
-                                                <td class="border-2">{{ $book->author_name }}</td>
-                                                <td class="border-2">{{ $book->feat_author ? $book->feat_author : 'No Featured' }}</td>
-                                                <td class="border-2">{{ $book->description }}</td>
-                                                <td class="border-2"><img src="{{ 'storage/' . $book->thumbnail }}"
-                                                        alt="" class="w-32 h-16 object-cover"></td>
-                                                        <td>
-                                                            <a href="{{url('book/'. $book->slug)}}">{{$book->slug}}</a>
-                                                        </td>
-                                                {{-- <td class="border-2">{{ $book->thumbnail }}</td> --}}
-                                                {{-- <iframe src="{{ asset('storage/' . $book) }}" width="" height="">
-                                This browser does not support PDFs. Please download the PDF to view it: <a href="{{ asset('storage/pdfs/your-pdf-file.pdf') }}">Download PDF</a>
-                            </iframe> --}}
-                                            </tr>
-                                        </tbody>
-                                    @endforeach
-                                </table>
+                                @foreach ($books as $book)
+                                <tr>
+                                    <td>{{ $book->id }}</td>
+                                    <td>{{ $book->name }}</td>
+                                    <td>{{ $book->author_name }}</td>
+                                    <td>{{ $book->author_id }}</td>
+                                    <td><a href="{{url('author/book/'. $book->slug)}}">{{$book->slug}}</a></td>
+                                </tr>
+                                @endforeach
                             </x-bladewind::table>
-                            {{-- <iframe src="{{ asset('storage/' . $book->file) }}" width="100%" height="600px">
-                                        This browser does not support PDFs. Please download the PDF to view it: <a
-                                            href="{{ asset('storage/' . $book->file) }}">Download PDF</a>
-                                    </iframe> --}}
-
-
                         </x-bladewind::tab-content>
                     @else
                         <x-bladewind::tab-content name="author">

@@ -53,25 +53,11 @@ class BookController extends Controller
         return view('showBooks', ['book' => $book]);
     }
 
-    public function download($slug)
-    {
-        $book = Books::findOrFail($slug);
-
-        $filePath = storage_path('app/public/' . $book->file_name);
-
-        return response()->download($filePath);
-    }
-
     public function read($slug)
     {
-        $book = Books::findOrFail($slug);
+        $book = Books::where('slug',$slug)->first();
 
-        return view('read', ['book' => $book]);
+        return view('book', ['book' => $book]);
     }
 
-    public function downloadPdf(Request $request)
-    {
-        $item = DB::table('slug')->get();
-        view()->share('items', $item);
-    }
 }
