@@ -10,7 +10,6 @@
 </head>
 
 <body>
-    @include('components.header')
     <div class="bg-gray-800 min-h-screen flex flex-col items-center justify-center">
         <div class="flex justify-center">
             <h1 class="flex gap-1 text-6xl text-white my-10 font-serif">

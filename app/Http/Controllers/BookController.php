@@ -6,6 +6,7 @@ use App\Models\Books;
 use DB;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -13,10 +14,9 @@ class BookController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'author_id' => 'required|integer',
             'description' => 'required|string',
-            'thumbnail' => 'mimes:pdf',
-            'file' => 'required|mimes:webp,jpg,jpeg,png',
+            'thumbnail' => 'required|mimes:webp,jpg,jpeg,png',
+            'file' => 'required|mimes:pdf',
             'feat_author' => 'email|nullable'
         ]);
         $data = [
@@ -55,9 +55,41 @@ class BookController extends Controller
 
     public function read($slug)
     {
-        $book = Books::where('slug',$slug)->first();
+        $book = Books::where('slug', $slug)->first();
 
         return view('book', ['book' => $book]);
+    }
+
+    public function showEdit($slug)
+    {
+        $book = Books::where('slug', $slug)->first();
+        $user = Auth::user();
+        return view('editBook', ['book' => $book]);
+    }
+
+    public function editBook(Request $request, $slug)
+    {
+        // dd($request);
+        $book = Books::where('slug', $slug)->first();
+        if ($book) {
+            $book->name = $request->input('name');
+            $book->feat_author = $request->input('feat_author');
+            $book->description = $request->input('description');
+            if ($request->hasFile('file')) {
+                if($book->file){
+                    Storage::disk('public')->delete($book->file);
+                }
+                $book->file = $request->file('file')->store('books.pdf', 'public');
+            }
+            if($request->hasFile('thumbnail')){
+                if($book->thumbnail){
+                    Storage::disk('public')->delete($book->thumbnail);
+                }
+                $book->thumbnail = $request->file('thumbnail')->store('books.cover', 'public');
+            }
+            $book->save();
+            return redirect()->route('profile')->with('Res', 'Book Edited Successfully');
+        }
     }
 
 }

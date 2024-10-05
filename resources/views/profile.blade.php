@@ -34,7 +34,6 @@
         width: 100%;
     }
 </style>
-
 @section('content')
     <section class="py-3 md:py-5 xl:py-5">
         @if (session('Res'))
@@ -218,6 +217,7 @@
                                     <th>Author</th>
                                     <th>Author Id</th>
                                     <th>Read or Download</th>
+                                    <th>Edit</th>
                                 </x-slot>
                                 @foreach ($books as $book)
                                 <tr>
@@ -225,7 +225,8 @@
                                     <td>{{ $book->name }}</td>
                                     <td>{{ $book->author_name }}</td>
                                     <td>{{ $book->author_id }}</td>
-                                    <td><a href="{{url('author/book/'. $book->slug)}}">{{$book->slug}}</a></td>
+                                    <td><a href="{{url('book/'. $book->slug)}}">{{$book->slug}}</a></td>
+                                    <td><a href="{{url('book/edit/'. $book->slug)}}">Edit</a></td>
                                 </tr>
                                 @endforeach
                             </x-bladewind::table>

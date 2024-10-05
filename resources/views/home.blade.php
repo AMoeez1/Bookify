@@ -48,18 +48,21 @@
     <!-- Featured Sections -->
     <div class="container mx-auto py-6">
         <h3 class="text-xl font-bold mb-4">This Week’s Bestsellers</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
             @foreach ($books as $book)
-                <a href="{{url('book/'. $book->slug)}}">
-                    <div class="bg-white shadow-md rounded-lg p-4">
-                        <img src="{{asset('storage/'. $book->thumbnail)}}" alt="{{$book->slug}}" class="w-full h-48 object-cover rounded-md mb-2">
-                        <h4 class="font-semibold">{{$book->name}}</h4>
-                        <p class="text-gray-600">Written By {{$book->author_name}}</p>
-                        <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Buy Now</button>
-                    </div>
-                </a>
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <a href="{{ url('book/' . $book->slug) }}">
+                        <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="{{ $book->slug }}" class="w-full h-56 object-contain">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-lg mb-2">{{ $book->name }}</h4>
+                            <p class="text-gray-600">Written By <a href="{{ url('user/' . $book->author_id) }}" class="underline font-semibold text-blue-600 hover:text-blue-800">{{ $book->author_name }}</a></p>
+                            <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">Buy Now</button>
+                        </div>
+                    </a>
+                </div>
             @endforeach
         </div>
+        
 
         <h3 class="text-xl font-bold mb-4 mt-6">Just Arrived</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

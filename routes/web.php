@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Middleware\BooksMiddleware;
 use App\Http\Middleware\ValidUser;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class,'index'])->name('home');
 
 Route::get('/book/{slug}', [BookController::class, 'read'])->name('readBook');
+Route::get('/user/{id}', [AuthController::class, 'allUser'])->name('all_user');
 Route::middleware([ValidUser::class])->group(function () {
     Route::get('/register',[AuthController::class,'showRegister'])->name('show_register');
     Route::post('/register', [AuthController::class,'register'])->name('register');
@@ -20,4 +22,9 @@ Route::middleware([ValidUser::class])->group(function () {
     Route::post('/add/book',[BookController::class,'addBook'])->name('add_book');
 });
 
+
+Route::middleware([BooksMiddleware::class])->group(function () {
+    Route::get('/book/edit/{slug}', [BookController::class,'showEdit'])->name('show_edit');
+    Route::post('/book/edit/{slug}',[BookController::class, 'editBook'])->name('edit_book');
+});
 

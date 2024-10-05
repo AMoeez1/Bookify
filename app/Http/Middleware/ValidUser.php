@@ -26,6 +26,5 @@ class ValidUser
             }
         }
         return $next($request);
-
     }
 }

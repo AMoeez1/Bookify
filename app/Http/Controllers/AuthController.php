@@ -131,4 +131,19 @@ class AuthController extends Controller
             }
         }
     }
+
+    public function allUser($id){
+        $user = User::where('id',$id)->first();
+        $logged_user = Auth::id();
+        if(!$user){
+            return redirect()->route('home')->with('Res', 'No User Found');
+        }
+        $books = Books::where('author_id', $user->id)->get();
+        if($user->id == $logged_user){
+            return redirect()->route('profile');
+
+        } else {
+            return view('otherProfile',['user'=> $user, 'books' => $books]);
+        }
+    }
 }
