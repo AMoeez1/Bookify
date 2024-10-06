@@ -20,7 +20,7 @@
 
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
     <div class="grid grid-cols-12">
         <div class="col-span-12">
             @include('Components.header')

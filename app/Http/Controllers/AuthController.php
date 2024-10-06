@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function index()
     {
         $books = Books::inRandomOrder()->limit(5)->get();
-        return view("home", ['books' => $books]);
+        return view("pages.home", ['books' => $books]);
     }
 
     /**
@@ -85,7 +85,7 @@ class AuthController extends Controller
         $author = Auth::user()->id;
         $books = Books::where('author_id', $author)->get();
 
-        return view('profile',)->with('books', $books);
+        return view('pages.profile',)->with('books', $books);
     }
 
     public function edit_profile(Request $request)
@@ -143,7 +143,7 @@ class AuthController extends Controller
             return redirect()->route('profile');
 
         } else {
-            return view('otherProfile',['user'=> $user, 'books' => $books]);
+            return view('pages.other_profile',['user'=> $user, 'books' => $books]);
         }
     }
 }

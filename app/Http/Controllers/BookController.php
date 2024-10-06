@@ -47,24 +47,24 @@ class BookController extends Controller
 
     }
 
-    public function showBooks($slug)
-    {
-        $book = Books::where('slug', $slug)->first();
-        return view('showBooks', ['book' => $book]);
-    }
+    // public function showBooks($slug)
+    // {
+    //     $book = Books::where('slug', $slug)->first();
+    //     return view('showBooks', ['book' => $book]);
+    // }
 
     public function read($slug)
     {
         $book = Books::where('slug', $slug)->first();
 
-        return view('book', ['book' => $book]);
+        return view('pages.books.read_book', ['book' => $book]);
     }
 
     public function showEdit($slug)
     {
         $book = Books::where('slug', $slug)->first();
         $user = Auth::user();
-        return view('editBook', ['book' => $book]);
+        return view('pages.books.edit_book', ['book' => $book]);
     }
 
     public function editBook(Request $request, $slug)
@@ -90,6 +90,22 @@ class BookController extends Controller
             $book->save();
             return redirect()->route('profile')->with('Res', 'Book Edited Successfully');
         }
+    }
+
+    public function allBooks(){
+        $books = Books::inRandomOrder()->get();
+        return view('pages.books.all_books', ['books' => $books]);
+    }
+
+    public function filterSearch(Request $request){
+        $request->validate(['search' => 'required']);
+        $query = Books::query();
+        if($request->has('search')){
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $books = $query->paginate(10);
+        return view('pages.books.search_books',compact('books'));
     }
 
 }

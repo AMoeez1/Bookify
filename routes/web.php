@@ -10,6 +10,11 @@ Route::get('/', [AuthController::class,'index'])->name('home');
 
 Route::get('/book/{slug}', [BookController::class, 'read'])->name('readBook');
 Route::get('/user/{id}', [AuthController::class, 'allUser'])->name('all_user');
+Route::get('/books',[BookController::class,'allBooks'])->name('all_books');
+Route::get('/search/books', [BookController::class,'filterSearch'])->name('filter_search');
+
+
+
 Route::middleware([ValidUser::class])->group(function () {
     Route::get('/register',[AuthController::class,'showRegister'])->name('show_register');
     Route::post('/register', [AuthController::class,'register'])->name('register');

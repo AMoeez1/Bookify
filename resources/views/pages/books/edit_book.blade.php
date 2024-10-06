@@ -6,7 +6,6 @@
             <x-slot:headings>
                 <x-bladewind::tab-heading name="profile" active="true" label="Book Details" />
                 <x-bladewind::tab-heading name="feat" label="Edit Book" />
-                <x-bladewind::tab-heading name="books" label="Books Published" />
             </x-slot:headings>
 
             <x-bladewind::tab-body>
@@ -14,9 +13,9 @@
                     <div class="container mx-auto px-4 py-8">
                         <div class="flex flex-wrap -mx-4">
                             <!-- Product Images -->
-                            <div class="w-full md:w-1/2 px-4 mb-8">
+                            <div class="w-full md:w-1/2  px-4 mb-8">
                                 <img src="{{ asset('storage/' . $book->thumbnail) }}" alt="Product"
-                                    class="w-1/2 object-contain rounded-lg shadow-md mb-4" id="mainImage">
+                                    class="w-1/2 h-60 object-contain rounded-lg shadow-md mb-4" id="mainImage">
                             </div>
 
                             <!-- Product Details -->
@@ -31,12 +30,6 @@
                                 </div>
                                 <p class="text-gray-700 mb-6">Description: {{ $book->description }}</p>
 
-                                <div class="flex space-x-4 mb-6">
-                                    <button
-                                        class="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                        Download
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -50,10 +43,10 @@
                                 <div class="w-full md:w-1/2 px-4 mb-8">
                                     <label for="imageUpload" class="cursor-pointer">
                                         <div
-                                            class="relative w-1/2 object-contain rounded-lg overflow-hidden bg-gray-900 hover:bg-opacity-50">
-                                            <img class="object-cover w-full h-full transition-opacity duration-200 ease-in-out hover:opacity-50"
-                                                src="{{ asset('storage/' . $book->thumbnail) }}" width="150"
-                                                height="150" alt="Profile Image" />
+                                            class="flex justify-center relative w-1/2 object-contain rounded-lg overflow-hidden">
+                                            <img class="object-contain w-1/2 h-60 transition-opacity rounded-lg shadow-md duration-200 ease-in-out hover:opacity-50"
+                                                src="{{ asset('storage/' . $book->thumbnail) }}" 
+                                                 alt="Profile Image" />
                                             <div
                                                 class="absolute inset-0 flex flex-col justify-center items-center text-white opacity-0 transition-opacity duration-200 ease-in-out hover:opacity-100">
                                                 <span class="pb-2">
@@ -75,6 +68,9 @@
                                         selected_value='{{ $book->name }}' required='true' />
                                     <x-bladewind::button class="mb-4 w-full text-start" outline='true' disabled="true"
                                         type="secondary">
+                                        Book Id: {{ $book->id }}</x-bladewind::button>
+                                    <x-bladewind::button class="mb-4 w-full text-start" outline='true' disabled="true"
+                                        type="secondary" uppercasing='false' >
                                         Book Slug: {{ $book->slug }}
                                     </x-bladewind::button>
                                     <x-bladewind::button class="mb-4 w-full text-start" outline='true' disabled="true"
@@ -98,25 +94,6 @@
                     </form>
                 </x-bladewind::tab-content>
 
-                <x-bladewind::tab-content name="books">
-                    <x-bladewind::table>
-                        <x-slot name="header">
-                            <th>Serial No</th>
-                            <th>Book Name</th>
-                            <th>Author</th>
-                            <th>Read or Download</th>
-                        </x-slot>
-                        {{-- Uncomment this section to show books --}}
-                        {{-- @foreach ($books as $book) --}}
-                        {{-- <tr> --}}
-                        {{-- <td>{{ $loop->iteration }}</td> --}}
-                        {{-- <td>{{ $book->name }}</td> --}}
-                        {{-- <td>{{ $book->author_name }}</td> --}}
-                        {{-- <td><a href="{{ url('book/' . $book->slug) }}">{{ $book->slug }}</a></td> --}}
-                        {{-- </tr> --}}
-                        {{-- @endforeach --}}
-                    </x-bladewind::table>
-                </x-bladewind::tab-content>
             </x-bladewind::tab-body>
         </x-bladewind::tab-group>
     </div>

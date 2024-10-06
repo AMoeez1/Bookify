@@ -38,11 +38,12 @@
     </section>
 
     <!-- Search Bar -->
-    <div class="container mx-auto py-6">
-        <div class="flex justify-center">
-            <input type="text" placeholder="Search for your next great read..."
-                class="border border-gray-300 rounded-lg p-2 w-1/2 md:w-1/3" />
-        </div>
+    <div class="my-6 flex justify-center">
+        <form action="{{route('filter_search')}}" method="get" class="flex items-baseline w-1/3">
+            @csrf
+            <x-bladewind::input required='true' label="Search Books..." name='search' />
+            <x-bladewind::button can_submit='true'>Search</x-bladewind::button>
+        </form>
     </div>
 
     <!-- Featured Sections -->
