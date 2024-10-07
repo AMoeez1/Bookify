@@ -12,7 +12,7 @@ Route::get('/book/{slug}', [BookController::class, 'read'])->name('readBook');
 Route::get('/user/{id}', [AuthController::class, 'allUser'])->name('all_user');
 Route::get('/books',[BookController::class,'allBooks'])->name('all_books');
 Route::get('/search/books', [BookController::class,'filterSearch'])->name('filter_search');
-
+Route::get('/author',[AuthController::class,'author']);
 
 
 Route::middleware([ValidUser::class])->group(function () {

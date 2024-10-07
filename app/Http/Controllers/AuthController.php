@@ -146,4 +146,9 @@ class AuthController extends Controller
             return view('pages.other_profile',['user'=> $user, 'books' => $books]);
         }
     }
+
+    public function author(){
+        $users = User::where('role','author')->inRandomOrder()->get();
+        return view('pages.author',['users' => $users]);
+    }
 }

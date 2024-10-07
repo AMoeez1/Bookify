@@ -40,7 +40,7 @@
                 <a href="{{ url('/books') }}" class="p-2 mb-3 md:mb-0 hover:text-blue-500">
                     <span>Books</span>
                 </a>
-                <a href="#" class="p-2 mb-3 md:mb-0 hover:text-blue-500">
+                <a href="{{url('/author')}}" class="p-2 mb-3 md:mb-0 hover:text-blue-500">
                     <span>Author</span>
                 </a>
                 <a href="#" class="p-2 mb-3 md:mb-0 hover:text-blue-500">
