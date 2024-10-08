@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,11 +16,11 @@
     <title>@yield('title')</title>
     <style>
         .transition-transform {
-    transition: transform 0.3s ease;
-}
-
+            transition: transform 0.3s ease;
+        }
     </style>
 </head>
+
 <body class="bg-gray-50">
     <div class="grid grid-cols-12">
         <div class="col-span-12">
@@ -27,6 +28,7 @@
             @yield('content')
         </div>
     </div>
-    
+
 </body>
+
 </html>

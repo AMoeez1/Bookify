@@ -20,16 +20,16 @@ class BooksMiddleware
 
         $user = auth()->user();
         if(!$user){
-            return redirect()->route('home')->with('Res', 'Prohibited Route Access');
+            return redirect()->back()->with('Res', 'Prohibited Route Access');
         }
         $book = Books::where('slug', $slug)->first();
         if(!$book){
-            return redirect()->route('home')->with('Res', 'Prohibited Route Access');
+            return redirect()->back()->with('Res', 'Prohibited Route Access');
 
         }
 
         if($book->author_id === null){
-            return redirect()->route('home')->with('Res', 'Prohibited Route Access');
+            return redirect()->back()->with('Res', 'Prohibited Route Access');
         
         }
 
@@ -37,7 +37,7 @@ class BooksMiddleware
             return $next($request);
         }
 
-        return redirect()->route('home')->with('Res', 'Prohibited Route Access');
+        return redirect()->back()->with('Res', 'Prohibited Route Access');
     
     }
 }

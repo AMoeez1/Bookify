@@ -113,27 +113,28 @@
                     @endif
                     </x-bladewind::tab-content>
                     <x-bladewind::tab-content name="books">
-                        @if ($books)
+                        @if (!$books)
                         <x-bladewind::empty-state message="{{$user->name}} has not published any book yet!">
                         </x-bladewind::empty-state>
                     @else
                         <x-bladewind::table>
                             <x-slot name="header">
-                                <th>Book Id</th>
                                 <th>Book Name</th>
                                 <th>Author</th>
-                                <th>Author Id</th>
+                                <th>Featured Author</th>
+                                <th>Date Published</th>
+                                <th>Date Updated</th>
                                 <th>Read or Download</th>
-                                <th>Edit</th>
                             </x-slot>
                             @foreach ($books as $book)
                                 <tr>
-                                    <td>{{ $book->id }}</td>
                                     <td>{{ $book->name }}</td>
                                     <td>{{ $book->author_name }}</td>
-                                    <td>{{ $book->author_id }}</td>
+                                    <td>{{$book?->author ?? 'No Featured'}}</td>
+                                    <td>{{\Carbon\Carbon::parse($book->created_at)->format('d F Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($book->updated_at)->format('d F Y')}}</td>
                                     <td><a href="{{ url('book/' . $book->slug) }}">{{ $book->slug }}</a></td>
-                                    <td><a href="{{ url('book/edit/' . $book->slug) }}">Edit</a></td>
+
                                 </tr>
                             @endforeach
                         </x-bladewind::table>

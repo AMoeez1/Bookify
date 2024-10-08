@@ -103,9 +103,9 @@ class BookController extends Controller
         if($request->has('search')){
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-
+        $search = $request->search;
         $books = $query->paginate(10);
-        return view('pages.books.search_books',compact('books'));
+        return view('pages.books.search_books', compact('books', 'search'));
     }
 
 }
