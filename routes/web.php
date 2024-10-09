@@ -7,7 +7,6 @@ use App\Http\Middleware\ValidUser;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class,'index'])->name('home');
-
 Route::get('/book/{slug}', [BookController::class, 'read'])->name('readBook');
 Route::get('/user/{id}', [AuthController::class, 'allUser'])->name('all_user');
 Route::get('/books',[BookController::class,'allBooks'])->name('all_books');
@@ -25,6 +24,7 @@ Route::middleware([ValidUser::class])->group(function () {
     Route::post('/edit/profile', [AuthController::class,'edit_profile'])->name('edit_profile');
     Route::get('/remove/profile', [AuthController::class,'remove_profile'])->name('remove_profile');
     Route::post('/add/book',[BookController::class,'addBook'])->name('add_book');
+    Route::post('/author/verify',[AuthController::class, 'sendMail'])->name('send_mail');
 });
 
 

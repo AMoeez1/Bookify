@@ -6,6 +6,8 @@ use App\Models\Books;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use App\Mail\AuthorVerify;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -150,5 +152,18 @@ class AuthController extends Controller
     public function author(){
         $users = User::where('role','author')->inRandomOrder()->get();
         return view('pages.author',['users' => $users]);
+    }
+
+    public function sendMail(){
+        $messageContent = 'Email Verification to Bookify';
+        $subject = 'Bookify Author Verification Service';
+        $toUser = auth()->user()->email;
+
+        $mail = Mail::to($toUser)->send(new AuthorVerify($subject,$messageContent ));
+        if($mail){
+            return redirect()->route('profile')->with('Res' , 'Verification email sent');
+        } else {
+            return redirect()->back()->withErrors(['Error' => 'Error Sending mail']);
+        }
     }
 }

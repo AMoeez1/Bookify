@@ -82,7 +82,25 @@
                         <div>
                             <h1 class="text-2xl font-bold">{{ $user->name }}</h1>
                             <p class="text-gray-600">Role: {{ $user->role }}</p>
-                            <p class="text-gray-500">Email: {{ $user->email }}</p>
+                            <div class="flex items-center gap-3">
+                                <p class="text-gray-500">Email: {{ $user->email }}</p>
+                                <x-bladewind::button size='small' outline='true' onclick="showModal('medium-modal')">
+                                    Verify Email
+                                </x-bladewind::button>
+
+                            </div>
+
+                            <x-bladewind::modal title="Email Verification" cancel='false' name="medium-modal">
+                                <Form method="post" action="{{route('send_mail')}}">
+                                    @csrf
+                                    <x-bladewind::button class="mb-4 w-full text-start" uppercasing='false' outline='true' disabled="true"
+                                        type="secondary">
+                                        Email: {{ $user->email }}
+                                    </x-bladewind::button>
+                                    <button>Send Mail</button>
+                                    <p class="text-red-500 text-xs"><b>Warning:</b>If this is not you valid email you can change it from edit profile tab.</p>
+                                </Form>
+                            </x-bladewind::modal>
                         </div>
                         <div class="mt-6">
                             <h2 class="text-lg font-semibold">Social Links</h2>

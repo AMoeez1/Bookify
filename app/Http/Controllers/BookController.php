@@ -56,8 +56,11 @@ class BookController extends Controller
     public function read($slug)
     {
         $book = Books::where('slug', $slug)->first();
-
-        return view('pages.books.read_book', ['book' => $book]);
+        if(!$book) {
+            return   redirect()->back()->withErrors(['Error' => 'No Book Found']);
+        } else {
+            return view('pages.books.read_book', ['book' => $book]);
+        }
     }
 
     public function showEdit($slug)
