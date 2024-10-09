@@ -166,4 +166,19 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['Error' => 'Error Sending mail']);
         }
     }
+
+    public function verifyAuthor(){
+        $userId = auth::id();
+        $author = User::find($userId);
+        if(!$userId){
+            return back()->withErrors(['Error' => 'No Author Found']);
+        }
+        if($author){
+            $author->email_verified_at = now();
+            $author->save();
+            return redirect()->route('profile')->with('Res', 'Verified Successfully');
+        } else {
+            return back()->withErrors(['Error' => 'No Author Found']);
+        }
+    }
 }

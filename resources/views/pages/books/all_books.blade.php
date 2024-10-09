@@ -18,6 +18,7 @@
                 <li class="text-blue-500 hover:underline cursor-pointer">Science Fiction</li>
             </ul>
         </div>
+
         <div class="col-span-10">
             <!-- Book Card -->
             <div class="grid grid-cols-12 gap-4">

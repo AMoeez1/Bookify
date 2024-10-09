@@ -24,7 +24,8 @@ Route::middleware([ValidUser::class])->group(function () {
     Route::post('/edit/profile', [AuthController::class,'edit_profile'])->name('edit_profile');
     Route::get('/remove/profile', [AuthController::class,'remove_profile'])->name('remove_profile');
     Route::post('/add/book',[BookController::class,'addBook'])->name('add_book');
-    Route::post('/author/verify',[AuthController::class, 'sendMail'])->name('send_mail');
+    Route::post('/send/mail',[AuthController::class, 'sendMail'])->name('send_mail');
+    Route::get('/author/verify', [AuthController::class, 'verifyAuthor'])->name('author_verify');
 });
 
 
