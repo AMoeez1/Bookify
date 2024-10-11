@@ -12,6 +12,10 @@ Route::get('/user/{id}', [AuthController::class, 'allUser'])->name('all_user');
 Route::get('/books',[BookController::class,'allBooks'])->name('all_books');
 Route::get('/search/books', [BookController::class,'filterSearch'])->name('filter_search');
 Route::get('/author',[AuthController::class,'author']);
+Route::get('/reset/password',[AuthController::class, 'resetPasswordForm']);
+Route::post('/reset/password', [AuthController::class,'resetPassword'])->name('reset_password');
+Route::get('/forget/password/{token}', [AuthController::class,'changePasswordForm']);
+Route::post('/forget/password/{token}', [AuthController::class,'changePassword'])->name('change_password');
 
 
 Route::middleware([ValidUser::class])->group(function () {

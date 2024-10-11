@@ -12,7 +12,10 @@
         <x-bladewind::button class="w-full" type="blue" outline='true' can_submit="true">
             Login
         </x-bladewind::button>
-        <p class="mt-4">Don't have any accounts? <a class="underline" href="/register">Register </a>here!</p>
+        <div class="flex justify-center my-3">
+            <a class="underline text-blue-600" href="/reset/password">Forgot Password</a>
+        </div>
+        <p>Don't have any accounts? <a class="underline" href="/register">Register </a>here!</p>
         @error('Error')
             <x-bladewind::alert type="error">
                 {{ $message }}

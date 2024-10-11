@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PasswordReset;
 use App\Models\Books;
 use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
 use Auth;
 use App\Mail\AuthorVerify;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -179,6 +182,62 @@ class AuthController extends Controller
             return redirect()->route('profile')->with('Res', 'Verified Successfully');
         } else {
             return back()->withErrors(['Error' => 'No Author Found']);
+        }
+    }
+
+    public function resetPasswordForm(){
+        return view('auth.reset_password');
+    }
+
+    public function resetPassword(Request $request){
+        $request->validate(['email' => 'required|exists:users|email']);
+
+        $token = str::random(64);
+        $email = $request->email;
+        $subject = 'Password Reset Request';
+        $content = 'Reset your password';
+
+        DB::table('password_reset_tokens')->insert([
+            'email' => $email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+
+        $mail = Mail::to($email)->send(new PasswordReset($subject, $content, $token));
+        if($mail){
+            return back()->with('Res', 'Password reset token sent via mail');
+        } else {
+            return back()->with('Error', 'Errors');
+        }
+    }
+
+    public function changePasswordForm($token){
+        return view('auth.forget_password', ['token' => $token]);
+    }
+
+    public function changePassword(Request $request, $token){
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required',
+            'conf_password' => 'required|same:password' 
+        ]);
+
+        $passwordTable = DB::table('password_reset_tokens')->where([
+            'email' => $request->email,
+            'token' => $token,
+        ])->first();
+        if(!$passwordTable){
+            return back()->withErrors(['Error' => 'Invalid Token']);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if($user){
+            $user->password = $request->password;
+            $user->save();
+            DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
+            return redirect()->route('login')->with('Res', 'Login again with new password');
+        } else {
+            return back()->withErrors(['Error' => 'No user found with this email']);
         }
     }
 }

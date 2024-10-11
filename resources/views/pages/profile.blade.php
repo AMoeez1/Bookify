@@ -80,25 +80,30 @@
                         <p class="mb-3">{{ $user->about == '' ? 'No About Added.' : $user->about }}</p>
                         <h5 class="mb-3 font-semibold">Profile</h5>
                         <div>
-                            <h1 class="text-2xl font-bold">{{ $user->name }}</h1>
+                            <div class="flex items-center gap-1">
+                                <h1 class="text-2xl font-bold">{{ $user->name }}</h1>
+                                <i class="material-icons text-blue-500 rounded-full cursor-pointer">check_box</i>
+                            </div>
                             <p class="text-gray-600">Role: {{ $user->role }}</p>
                             <div class="flex items-center gap-3">
                                 <p class="text-gray-500">Email: {{ $user->email }}</p>
-                                <x-bladewind::button size='small' outline='true' onclick="showModal('medium-modal')">
-                                    Verify Email
-                                </x-bladewind::button>
-
+                                @if ($user->email_verified_at == null)
+                                    <x-bladewind::button size='small' outline='true' onclick="showModal('medium-modal')">
+                                        Verify Email
+                                    </x-bladewind::button>
+                                @endif
                             </div>
-
                             <x-bladewind::modal title="Email Verification" cancel='false' name="medium-modal">
-                                <Form method="post" action="{{route('send_mail')}}">
+                                <Form method="post" action="{{ route('send_mail') }}">
                                     @csrf
-                                    <x-bladewind::button class="mb-4 w-full text-start" uppercasing='false' outline='true' disabled="true"
-                                        type="secondary">
+                                    <x-bladewind::button class="mb-4 w-full text-start" uppercasing='false' outline='true'
+                                        disabled="true" type="secondary">
                                         Email: {{ $user->email }}
                                     </x-bladewind::button>
-                                    <button>Send Mail</button>
-                                    <p class="text-red-500 text-xs"><b>Warning:</b>If this is not you valid email you can change it from edit profile tab.</p>
+                                    {{-- <button>Send Mail</button> --}}
+                                    <p class="text-red-500 text-xs"><b>Warning:</b>If this is not you valid email you can
+                                        change it from edit profile tab.</p>
+                                    <x-bladewind::button can_submit='true'>Send Mail</x-bladewind::button>
                                 </Form>
                             </x-bladewind::modal>
                         </div>
@@ -229,7 +234,7 @@
                             </x-bladewind::empty-state>
                         </x-bladewind::tab-content>
                         <x-bladewind::tab-content name="books">
-                            @if (!$books)
+                            @if ($books->isEmpty())
                                 <x-bladewind::empty-state message="You have no books published yet!">
                                 </x-bladewind::empty-state>
                             @else
