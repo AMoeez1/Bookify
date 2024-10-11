@@ -115,6 +115,21 @@
                                 <a href="#" class="text-blue-500 hover:underline">GitHub</a>
                             </div>
                         </div>
+                        <x-bladewind::button icon='trash' color='red' onclick="showModal('error')"
+                            size="small">Delete
+                            Account</x-bladewind::button>
+                        <x-bladewind::modal type="error" title="Delete Bookify Account" name="error" size='big'
+                            show_action_buttons="false">
+                            Are you sure! You want to delete this account. This process can't be undone.
+                            <div class="flex my-4 gap-2">
+                                <form id="delete-account-form" action="{{ route('delete_account') }}" method="post">
+                                    @csrf
+                                    <x-bladewind::button color='red' outline='true' can_submit='true'>Yes, Delete my
+                                        account</x-bladewind::button>
+                                </form>
+                            </div>
+                        </x-bladewind::modal>
+
                     </x-bladewind::tab-content>
 
                     <x-bladewind::tab-content name="edit">

@@ -240,4 +240,16 @@ class AuthController extends Controller
             return back()->withErrors(['Error' => 'No user found with this email']);
         }
     }
+
+    public function deleteAccount(){
+        $id = auth()->id();
+        $user = User::find($id);
+        if($user){
+            Auth::logout();
+            $user->delete();
+            return redirect()->route('home')->withErrors(['Error' => 'Account Deleted Successfully']);
+        } else {
+            return back()->withErrors(['Error' => 'Something went wrong!']);
+        }
+    }
 }

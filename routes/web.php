@@ -30,6 +30,7 @@ Route::middleware([ValidUser::class])->group(function () {
     Route::post('/add/book',[BookController::class,'addBook'])->name('add_book');
     Route::post('/send/mail',[AuthController::class, 'sendMail'])->name('send_mail');
     Route::get('/author/verify', [AuthController::class, 'verifyAuthor'])->name('author_verify');
+    Route::post('/user/delete', [AuthController::class, 'deleteAccount'])->name('delete_account');
 });
 
 
